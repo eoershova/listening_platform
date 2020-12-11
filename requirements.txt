@@ -1,0 +1,9 @@
+# general
+pathlib
+
+# web
+django.shortcuts
+django
+django.db
+django.contrib
+django.urls

@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listening task</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      header {
+        background: #4169E1;
+        height: 200px;
+      }
+      h1 {
+        color: white;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 300%;
+        text-align: center;
+        line-height: 200px;
+        margin: 0;
+      }
+      article {
+        padding: 10px;
+        margin: 10px;
+        flex: 1;
+      }
+      section1{
+        display: flex;
+        flex-flow: row wrap;
+      }
+      section2{
+        display: flex;
+        flex-flow: column wrap;
+      }
+	  
+	input.button {
+	  color: #fff; 
+	  text-decoration: none; 
+	  user-select: none; 
+	  background: #4169E1; 
+	  padding: .7em 1.5em; 
+	  outline: none; 
+		} 
+		input.button:hover { background: rgb(232,95,76); } 
+		input.button:active { background: rgb(152,15,0); } 
+		
+	button.button {
+	  color: #fff; 
+	  text-decoration: none; 
+	  user-select: none; 
+	  background: #4169E1; 
+	  padding: .7em 1.5em; 
+	  outline: none; 
+		} 
+		input.button:hover { background: rgb(232,95,76); } 
+		input.button:active { background: rgb(152,15,0); } 
+		
+	button.audio {
+	  color: #fff; 
+	  text-decoration: none; 
+	  user-select: none; 
+	  background: #4169E1; 
+	  padding: .7em 1.5em; 
+	  outline: none; 
+		} 
+		input.button:hover { background: rgb(232,95,76); } 
+		input.button:active { background: rgb(152,15,0); }
+}
+HTML CSSResult Skip Results Iframe
+EDIT ON
+.spacer {
+  height: 40vh;
+}
+
+.wrap {
+  display: flex;
+  /*align-items: flex-start;*/
+}
+
+.wrap > div {
+  flex: 1;
+  text-align: center;
+}
+
+/*.wrap > div:nth-child(1) {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding-top: 100px;
+}*/
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  align: right;
+  padding: 0px 50px;
+  font: 36pt sans-serif;
+}
+
+
+
+Resources1×0.5×0.25×Rerun
+
+
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Listening task</h1>
+    </header>
+    <section1 align='center'>
+        <article>
+        <h2>Instruction</h2>
+        <p>1. Please read all the instructions before pressing START. After you have pressed START, the stopwatch goes on right to the end of the four parts. If you refresh the page, you will NOT be allowed to do the test again! There is NO way to stop the recording for a pause! </p>
+		<p>2. You are going to do four parts of the listening test similar to that in IELTS. There will be a PLAY button in each of the four sections. The time for all four sections is 35 minutes, and each of the four sections lasts from 7 to 8 minutes. </p>
+		<p>3. You can press any of the four PLAY buttons ONLY ONCE. Pressing the PLAY button of the next section while you are still listening to the current recording DOES NOT stop the recording of the latter, so you will hear the two recordings simultaneously. </p>
+		<p>4. Make sure you don't spend more than 2 minutes completing your answers in each of the four sections, otherwise you will not have enough time to finish the whole test. </p>
+		<p>5. Press SUBMIT when all answers are provided in the boxes for them.</p>
+		<p>6. After you are finished, you will see your results in all sections.</p>
+	   </article>
+	  
+<script type="text/javascript">
+    function starttimer()
+    {
+        document.getElementById("start").click(); // Simulates button click
+    }
+</script>
+
+
+
+
+	  
+	  
+	  
+    </section1>
+<p id='timer' class='sticky' align='right'>
+<span id="time"></span>
+  <button id="start" class="button">Start</button></p>
+  
+  
+<script>
+  var newDate,
+    intervalId;
+if (localStorage["timer"]) {
+  newDate = new Date(localStorage["timer"]);
+  timer(); // Инициализация текста в элементах.
+  intervalId = setInterval(timer, 1000);
+}
+document.querySelector("#start").onclick = onStart;
+
+function onStart() {
+  document.getElementById("form").hidden = false
+  newDate = Date.now() + 40 * 60000; // Таймер на 60 минут
+  timer(); // Инициализация текста в элементах.
+  if (!intervalId) intervalId = setInterval(timer, 1000);
+  localStorage["timer"] = new Date(newDate).toISOString();
+}
+
+function timer() {
+  var now = Date.now(),
+    rest = newDate >= now ? Math.round((newDate - now) / 1000) * 1000 : 0,
+    s = "0";
+  if (!rest) {
+    clearInterval(intervalId);
+    intervalId = null;
+    localStorage.removeItem("timer");
+  } else {
+    var rest2 = rest % 3600000;
+    let hh = (rest - rest2) / 3600000;
+    rest = rest2;
+
+    rest2 = rest % 60000;
+    let mm = (rest - rest2) / 60000;
+    rest = rest2;
+
+    rest2 = rest % 1000;
+    let ss = (rest - rest2) / 1000;
+    let ms = rest2;
+
+    s = (mm < 10 ? "0" : "") + mm + ":" +
+      (ss < 10 ? "0" : "") + ss;
+  }
+  
+  if (s == 0) {
+	document.getElementById('button_submit').click();
+	}
+  
+  
+  document.querySelector("#time").textContent = s;
+  document.querySelector("#start").style.display = 'none';
+  
+} 
+</script>
+	
+	
+	
+	
+
+    	
+	<form id="form" hidden = "true" method= "POST">
+		{% csrf_token %}
+    <section2>
+        <article>
+            <h2>Student information</h2>
+            <label for="id_name">Name: </label>
+			<input type="text" id="id_name" name="name" placeholder="info"><br><br>
+			<label for="id_surname">Surname: </label>
+			<input type="text" id="id_surname" name="surname" placeholder="info"><br><br>
+            <label for="id_group">Group: </label>
+			<input type="text" id="id_group" name="group" placeholder="info"><br><br>
+        </article>
+        </article>
+    </section2>
+	<section2>
+		<article>
+			<h2>Task 1</h2>
+			
+			{% load static %}
+			<div id='hide'>
+			 <audio id="player" src="{% static 'vars/exams_ielts_mc_pt01.mp3' %}"></audio>
+			 
+				<div id='hide'>
+					<button  type='button' id='hide' class = 'audio' onclick="document.getElementById('player').play(); this.style.display='none'">Play</button>
+				</div>
+			</div>
+			<script>
+				// Здесь не важно, как мы скрываем текст.
+				// Также можно использовать style.display:
+				document.getElementById('hide').onclick = function() {
+				  document.getElementById('player').hidden = true;
+				}
+			</script>
+			<h2 class="mb-4 mt-3">Questions 1-7</h2>
+			<p class="reading-description font-italic"><i>Complete the form below, using <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</i></p>
+			<div style="border:2px solid #555; box-shadow:3px 3px 5px #999; width: 450px; text-align:left;  margin:20px; padding:20px;">
+				<h4 align='center'><big>Travel Safe</big></h4><p align='center'><small>INSURANCE PLC</small></p><br>
+				<strong>Department:</strong> <u>Motor Insurance</u><br><br>
+				<h5>Client details:</h5>
+				<strong>Name:</strong> Elisabeth <span data-answer='Ricard'></span><input type="text" id="id_ans1" name="ans1" placeholder="answer"><br><br>
+				<strong>Date of birth:</strong> 8.10.1975<br><br>
+				<strong>Address: </strong><input type="text" id="id_ans2" name="ans2" placeholder="answer"> (street) Callington (town) <br><br>
+				<strong>Policy number: </strong><input type="text" id="id_ans3" name="ans3" placeholder="answer"><br><br><span data-answer='CZ8809'></span>
+				<h5>Accident details:</h5>
+				<strong>Date: </strong><input type="text" id="id_ans4" name="ans4" placeholder="answer"><br><br><span data-answer='12th September / 12.09'></span>
+				<strong>Time:</strong> Approx. <input type="text" id="id_ans5" name="ans5" placeholder="answer"><br><br><span data-answer='8.30 pm / half past eight'></span>
+				<strong>Supporting evidence: </strong> <input type="text" id="id_ans6" name="ans6" placeholder="answer"><br><br><span data-answer='police report'></span>
+				<strong>Medical problems (if any): </strong> <span data-answer='minor'></span><input type="text" id="id_ans7" name="ans7" placeholder="answer"> injuries<br>
+			</div>
+			<h2 class="mb-4 mt-5">Questions 8-10</h2>
+			<p class="reading-description font-italic"><i>Label the diagram/plan below.</i></p>
+			<p class="reading-description font-italic"><i>Write the correct letter, <strong>A-G</strong>, next to questions <strong>8-10</strong>.</i></p>
+			{% load static %}
+			<p><img src="{% static 'vars/scheme.gif' %}" width="400" height="300"></p>
+			<div class="mb-4 mt-4" data-temp='menu' data-type='4' data-size='7'>
+				<p><strong>8.</strong> traffic lights <input type="text" id="id_ans8" name="ans8" placeholder="answer"></p>
+				<p><strong>9.</strong> petrol station <input type="text" id="id_ans9" name="ans9" placeholder="answer"></p>
+				<p><strong>10.</strong> blue van <input type="text" id="id_ans10" name="ans10" placeholder="answer"></span></p>	
+			</div>
+		</article>
+	</section2>
+	<section2>
+		<article>
+			<h2>Task 2</h2>
+			<div id='hide'>
+			 <audio id="player2" src="{% static 'vars/exams_ielts_mc_pt02.mp3' %}"></audio>
+			 
+				<div id='hide'>
+					<button  type='button' id='hide' class = 'audio' onclick="document.getElementById('player2').play(); this.style.display='none'">Play</button>
+				</div>
+			</div>
+			<script>
+				// Здесь не важно, как мы скрываем текст.
+				// Также можно использовать style.display:
+				document.getElementById('hide').onclick = function() {
+				  document.getElementById('player').hidden = true;
+				}
+			</script>
+			<h2 class="mb-4 mt-3">Questions 11-14</h2>
+			<p class="reading-description font-italic"><i>Complete the sentences below, using <strong>NO MORE THAN THREE WORDS</strong> for each answer.</i></p>
+			<div class="mb-4 mt-4" data-temp='editor'>
+				<p class="inline-question"><strong>11. </strong>Dormouse numbers have fallen <input type="text" id="id_ans11" name="ans11" placeholder="answer"> as well as in the UK.</p>
+				<p class="inline-question"><strong>12. </strong>Dormice are about as heavy as two <input type="text" id="id_ans12" name="ans12" placeholder="answer">.</p>
+				<p class="inline-question"><strong>13. </strong>You are most likely to have seen a dormouse in a <input type="text" id="id_ans13" name="ans13" placeholder="answer">.</p>
+				<p class="inline-question"><strong>14. </strong>In the UK, dormice probably live in hedges and woods, and next to <input type="text" id="id_ans14" name="ans14" placeholder="answer">.</p>
+			</div></br>
+			<h2 class="mb-4 mt-5">Questions 15-17</h2>
+			<p class="reading-description font-italic"><i>Label the identification sheet below.</i></p>
+			<p class="reading-description font-italic"><i>Write the correct letter <strong>A-E</strong> next to questions <strong>5-8</strong>.</i></p>
+			{% load static %}
+			<p><img src="{% static 'vars/picture.gif' %}" width="400" height="300"></p>
+			<div class="mb-4 mt-4" data-temp='menu' data-type='4' data-size='5'>
+				<p class="inline-question"><strong>15. </strong>opened by woodmice <input type="text" id="id_ans15" name="ans15" placeholder="answer"></p>
+				<p class="inline-question"><strong>16. </strong>opened by voles <input type="text" id="id_ans16" name="ans16" placeholder="answer"></p>
+				<p class="inline-question"><strong>17. </strong>opened by dormice <input type="text" id="id_ans17" name="ans17" placeholder="answer"></p>
+			</div><br>
+			<h2 class="mb-4 mt-5">Questions 18-20</h2>
+			<p class="reading-description font-italic"><i>Complete the summary below.</i></p>
+			<p class="reading-description font-italic"><i>Using <strong>NO MORE THAN ONE WORD</strong> in each space.</i></p>
+			<div class="mb-4 mt-4" data-temp='editor'>
+				<p class="sq">
+					If you find nuts opened by dormice <strong>18 </strong> <input type="text" id="id_ans18" name="ans18" placeholder="answer"> where you found them. Put them into some kind of <strong>19 </strong> <input type="text" id="id_ans19" name="ans19" placeholder="answer"> and <strong>20 </strong> <input type="text" id="id_ans20" name="ans20" placeholder="answer"> them (name and address). Post them to Action for Wildlife.
+				</p>
+			</div>
+		</article>
+	</section2>
+	<section2>
+		<article>
+			<h2>Task 3</h2>
+			
+				<div id='hide'>
+			 <audio id="player3" src="{% static 'vars/exams_ielts_mc_pt03.mp3' %}"></audio>
+			 
+				<div id='hide'>
+					<button  type='button' id='hide' class = 'audio' onclick="document.getElementById('player3').play(); this.style.display='none'">Play</button>
+				</div>
+			</div>
+			<script>
+				// Здесь не важно, как мы скрываем текст.
+				// Также можно использовать style.display:
+				document.getElementById('hide').onclick = function() {
+				  document.getElementById('player').hidden = true;
+				}
+			</script>
+			
+			<h2 class="mb-4 mt-3">Questions 21-26</h2>
+			<p class="reading-description font-italic"><i>Which company website has the following features?</i></p>
+			<p class="reading-description font-italic"><i>Write the correct letter <strong>A, B</strong> or <strong>C</strong> in boxes 21-26 on your answer sheet.</i></p>
+			<p style="border:2px solid #555; box-shadow:3px 3px 5px #999; width: 200px; text-align:center;  margin:20px; padding:20px;" > 
+				<span><b>A</b></span>
+				<span>Hills Cycles website</span><br>
+				<span><b>B</b></span>
+				<span>Wheels Unlimited website</span><br>
+				<span><b>C</b></span>
+				<span>Both websites</span>
+			</p>
+			<div class="mb-4 mt-4" data-temp='menu' data-type='4' data-size='3'>
+				<p class="inline-question"><strong>21. </strong>bicycle catalogue <input type="text" id="id_ans21" name="ans21" placeholder="answer"></p>
+				<p class="inline-question"><strong>22. </strong>price list <input type="text" id="id_ans22" name="ans22" placeholder="answer"></p>
+				<p class="inline-question"><strong>23. </strong>bicycle accessories <input type="text" id="id_ans23" name="ans23" placeholder="answer"><span data-answer='B'></p>
+				<p class="inline-question"><strong>24. </strong>company history <input type="text" id="id_ans24" name="ans24" placeholder="answer"></p>
+				<p class="inline-question"><strong>25. </strong>online ordering <input type="text" id="id_ans25" name="ans25" placeholder="answer"></p>
+				<p class="inline-question"><strong>26. </strong>moving graphics <input type="text" id="id_ans26" name="ans26" placeholder="answer"></p>
+			</div><br>
+			<h2 class="mb-4 mt-5">Questions 27-30</h2>
+			<p class="reading-description"><i>Choose the correct letter, <strong>A, B,</strong> or <strong>C</strong>.</i></p>
+			
+			<div class="mchq" data-answer="C" data-temp="mcq">
+				<p class="inline-question"><strong>27. </strong>According to the tutor, the basic criterion for evaluating the websites should relate to</p>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__10" name="ans27" value="A" checked>
+					<label class="custom-control-label " for="customRadio__10"><b>A</b> appearance.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__11" name="ans27" value="B">
+					<label class="custom-control-label " for="customRadio__11"><b>B</b> ease of use.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__12" name="ans27" value="C">
+					<label class="custom-control-label " for="customRadio__12"><b>C</b> target customers.</label>
+				</div>
+			</div>
+			
+			 <div class="mchq" data-answer="A" data-temp="mcq">
+				<p class="inline-question"><strong>28. </strong>On the subject of timing, the tutor says</p>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__20" name="ans28" value="A" checked>
+					<label class="custom-control-label " for="customRadio__20"><b>A</b> the students' plan is appropriate.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__21" name="ans28" value="B">
+					<label class="custom-control-label " for="customRadio__21"><b>B</b> the students' presentation will be too long.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__22" name="ans28" value="C">
+					<label class="custom-control-label " for="customRadio__22"><b>C</b> the students can extend the presentation if necessary.</label>
+				</div>
+			</div>	
+			
+			<div class="mchq" data-answer="C" data-temp="mcq">
+				<p class="inline-question"><strong>29. </strong>Sarah and Jack will share the work by</p>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__30" name="ans29" value="A" checked>
+					<label class="custom-control-label " for="customRadio__30"><b>A</b> speaking in short turns.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__31" name="ans29" value="B">
+					<label class="custom-control-label " for="customRadio__31"><b>B</b> doing half the presentation each.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__32" name="ans29" value="C">
+					<label class="custom-control-label " for="customRadio__32"><b>C</b> managing different aspects.</label>
+				</div>
+			</div>	
+			
+			<div class="mchq" data-answer="B" data-temp="mcq">
+				<p class="inline-question"><strong>30. </strong>The tutor advises Sarah and Jack not to</p>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__40" name="ans30" value="A" checked>
+					<label class="custom-control-label " for="customRadio__40"><b>A</b> talk too much.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__41" name="ans30" value="B">
+					<label class="custom-control-label " for="customRadio__41"><b>B</b> show complicated lists.</label>
+				</div>
+				<div class="custom-control custom-radio mchc">
+					<input type="radio" class="custom-control-input" id="customRadio__42" name="ans30" value="C">
+					<label class="custom-control-label " for="customRadio__42"><b>C</b> use a lot of visuals.</label>
+				</div>
+			</div>
+		</article>
+	</section2>
+	<section2>
+		<article>
+			<h2>Task 4</h2>
+		
+				<div id='hide'>
+			 <audio id="player4" src="{% static 'vars/exams_ielts_mc_pt04.mp3' %}"></audio>
+			 
+				<div id='hide'>
+					<button  type='button' id='hide' class = 'audio' onclick="document.getElementById('player4').play(); this.style.display='none'">Play</button>
+				</div>
+			</div>
+			<script>
+				// Здесь не важно, как мы скрываем текст.
+				// Также можно использовать style.display:
+				document.getElementById('hide').onclick = function() {
+				  document.getElementById('player').hidden = true;
+				}
+			</script>
+
+			<h2 class="mb-4 mt-3">Questions 31-37</h2>
+			<p class="reading-description font-italic"><i>Answer the questions below.</i></p>
+			<p class="reading-description font-italic"><i>Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</i></p>
+			<div class="mb-4 mt-4" data-temp='editor'>
+				<p class="inline-question"><strong>31. </strong>Which elephants stay together all their life? <input type="text" id="id_ans31" name="ans31" placeholder="answer"></p>
+				<p class="inline-question"><strong>32. </strong>What are elephant family groups known as? <input type="text" id="id_ans32" name="ans32" placeholder="answer"></p>
+				<p class="inline-question"><strong>33. </strong>When scientists tracked groups of elephants, which feature of behaviour did they notice? <input type="text" id="id_ans33" name="ans33" placeholder="answer"></p>
+				<p class="inline-question"><strong>34. </strong>Which sense do elephants probably use to communicate over long distances? <input type="text" id="id_ans34" name="ans34" placeholder="answer"></p>
+				<p class="inline-question"><strong>35. </strong>What did American scientists do with a recording of elephant calls? <input type="text" id="id_ans35" name="ans35" placeholder="answer"></p>
+				<p class="inline-question"><strong>36. </strong>What did the elephants in the experiment rush to find? <input type="text" id="id_ans36" name="ans36" placeholder="answer"></p>
+				<p class="inline-question"><strong>37. </strong>What were scientists unable to do with the recording they had made? <input type="text" id="id_ans37" name="ans37" placeholder="answer"></p>
+			</div><br>
+			
+			<h2 class="mb-4 mt-5">Questions 38-40</h2>
+			<p class="reading-description font-italic"><i>What does the lecturer say about each type of elephant call?</i></p>
+			<p class="reading-description font-italic"><i>Choose your answers from the box, and write the letters <strong>A-H</strong> next to questions <strong>38-40</strong>.</i></p>
+			<p style="border:2px solid #555; box-shadow:3px 3px 5px #999; width: 300px; text-align:center;  margin:20px; padding:20px;" >
+				<span><b>A</b></span>
+				<span>cannot be heard by humans at all</span><br>
+				<span><b>B</b></span>
+				<span>is usually accompanied by a leg movement</span><br>
+				<span><b>C</b></span>
+				<span>begins and ends at the same pitch</span><br>
+				<span><b>D</b></span>
+				<span>is usually accompanied by a nod of the head</span><br>
+				<span><b>E</b></span>
+				<span>continuously increases in pitch</span><br>
+				<span><b>F</b></span>
+				<span>is repeated over a long period</span><br>
+				<span><b>G</b></span>
+				<span>continually fluctuates in volume</span><br>
+			</p>
+			<div class="mb-4 mt-4" data-temp='menu' data-type='4' data-size='7'>
+				<p class="inline-question"><strong>38. </strong>Greeting <input type="text" id="id_ans38" name="ans38" placeholder="answer"></p>
+				<p class="inline-question"><strong>39. </strong>Contact call <input type="text" id="id_ans39" name="ans39" placeholder="answer"></p>
+				<p class="inline-question"><strong>40. </strong>Summons to move on <input type="text" id="id_ans40" name="ans40" placeholder="answer"></p>
+			</div>
+		</article>
+	</section2>
+	
+	<p align='center'><input id='button_submit' type='submit' value="Submit" class="button"></p>
+	</form>
+  </body>
+</html>
